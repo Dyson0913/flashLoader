@@ -30,7 +30,7 @@ package
 		public function Preloader() 
 		{
 			if (stage) {
-				stage.scaleMode = StageScaleMode.EXACT_FIT;
+				stage.scaleMode = StageScaleMode.SHOW_ALL;
 				stage.align = StageAlign.TOP;
 			}
 			

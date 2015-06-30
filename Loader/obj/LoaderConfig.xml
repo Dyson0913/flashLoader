@@ -16,7 +16,7 @@
     </define>
     <define append="true">
       <name>CONFIG::timeStamp</name>
-      <value>'2015/6/11'</value>
+      <value>'2015/6/12'</value>
     </define>
     <define append="true">
       <name>CONFIG::air</name>
@@ -34,18 +34,18 @@
     <omit-trace-statements>true</omit-trace-statements>
     <verbose-stacktraces>false</verbose-stacktraces>
     <source-path append="true">
-      <path-element>C:\Users\Administrator\Documents\Bitbucket\Loader\src</path-element>
+      <path-element>C:\Users\Administrator\Documents\bactest\flashLoader\Loader\src</path-element>
       <path-element>C:\Program Files (x86)\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
     <include-libraries>
-      <library>C:\Users\Administrator\Documents\Bitbucket\Loader\lib\Load.swc</library>
+      <library>C:\Users\Administrator\Documents\bactest\flashLoader\Loader\lib\Load.swc</library>
     </include-libraries>
     <library-path append="true">
-      <path-element>C:\Users\Administrator\Documents\Bitbucket\Loader\lib\LibGen.swc</path-element>
+      <path-element>C:\Users\Administrator\Documents\bactest\flashLoader\Loader\lib\LibGen.swc</path-element>
     </library-path>
   </compiler>
   <file-specs>
-    <path-element>C:\Users\Administrator\Documents\Bitbucket\Loader\src\Main.as</path-element>
+    <path-element>C:\Users\Administrator\Documents\bactest\flashLoader\Loader\src\Main.as</path-element>
   </file-specs>
   <default-background-color>#FFFFFF</default-background-color>
   <default-frame-rate>30</default-frame-rate>
