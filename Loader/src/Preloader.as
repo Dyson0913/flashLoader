@@ -74,7 +74,7 @@ package
 			
 			var result:Object  = JSON.decode(_para);
 			//var UserToken:String= result.data.UserName;
-			loadingPro._log.text = result.game + "?para=" + result;
+			//loadingPro._log.text = result.game + "?para=" + result;
 			
 			
 			_loader.contentLoaderInfo.addEventListener(Event.COMPLETE, loadend);
