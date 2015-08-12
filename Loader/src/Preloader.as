@@ -19,6 +19,7 @@ package
 	 * ...
 	 * @author hhg4092
 	 */
+	[SWF(backgroundColor = "#000000")]
 	public class Preloader extends MovieClip 
 	{
 		public var loadingPro:MovieClip;
@@ -35,10 +36,10 @@ package
 			}
 			
 			//TODO show loader			
-			loadingPro = new Link_Loading();
-			loadingPro.gotoAndStop(1);			
-		    loadingPro._Progress.gotoAndStop(1);			
-			addChild(loadingPro);
+			//loadingPro = new Link_Loading();
+			//loadingPro.gotoAndStop(1);			
+		    //loadingPro._Progress.gotoAndStop(1);			
+			//addChild(loadingPro);
 			
 			
 			addEventListener(Event.ENTER_FRAME, checkFrame);
@@ -49,7 +50,7 @@ package
 			if (this.loaderInfo.parameters["para"] != undefined)
 			{    
 				var token:String = this.loaderInfo.parameters["para"];				
-				loadingPro._log.text = token;
+				//loadingPro._log.text = token;
 				_para = token;
 			}
 			
@@ -94,8 +95,8 @@ package
 			var loaded:Number = Math.round(e.bytesLoaded / 1024);
 			var percent:Number = Math.round(loaded / total * 100);
 			
-			loadingPro._Progress.gotoAndStop(percent);
-			loadingPro._Progress._Percent._TextFild.text = percent.toString()+"%";
+			//loadingPro._Progress.gotoAndStop(percent);
+			//loadingPro._Progress._Percent._TextFild.text = percent.toString()+"%";
 		}
 		
 		private function loadend(event:Event):void
@@ -107,9 +108,9 @@ package
 				var result:Object  = JSON.decode(_para);
 				(_loader.content as MovieClip)["pass"](result);				
 			}
-			
+				
 			addChild(_loader);
-			removeChild(loadingPro);		
+			//removeChild(loadingPro);		
 		}
 		
 	}

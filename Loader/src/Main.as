@@ -7,7 +7,7 @@ package
 	 * ...
 	 * @author hhg4092
 	 */
-	[Frame(factoryClass="Preloader")]
+	[Frame(factoryClass = "Preloader")]	
 	public class Main extends Sprite 
 	{
 
