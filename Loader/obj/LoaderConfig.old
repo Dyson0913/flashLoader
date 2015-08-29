@@ -45,7 +45,7 @@
   <file-specs>
     <path-element>C:\Users\Administrator\Documents\bactest\flashLoader\Loader\src\Main.as</path-element>
   </file-specs>
-  <default-background-color>#FFFFFF</default-background-color>
+  <default-background-color>#000000</default-background-color>
   <default-frame-rate>30</default-frame-rate>
   <default-size>
     <width>1920</width>
