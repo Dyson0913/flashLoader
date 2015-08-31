@@ -13,7 +13,7 @@ package
 	import flash.system.LoaderContext;
 	import flash.utils.getDefinitionByName;
 	import com.adobe.serialization.json.JSON;
-	import flash.display.MovieClip;
+	import flash.display.MovieClip;	
 	
 	/**
 	 * ...
@@ -36,10 +36,7 @@ package
 			}
 			
 			//TODO show loader			
-			//loadingPro = new Link_Loading();
-			//loadingPro.gotoAndStop(1);			
-		    //loadingPro._Progress.gotoAndStop(1);			
-			//addChild(loadingPro);
+			
 			
 			
 			addEventListener(Event.ENTER_FRAME, checkFrame);
@@ -73,10 +70,12 @@ package
 		private function startup():void 
 		{
 			
+			//var result:Object  = { "game":"Lobby.swf"}; //JSON.decode(_para);
 			var result:Object  = JSON.decode(_para);
 			//var UserToken:String= result.data.UserName;
 			//loadingPro._log.text = result.game + "?para=" + result;
-			
+			loadingPro = new my_loader();		
+			addChild(loadingPro);
 			
 			_loader.contentLoaderInfo.addEventListener(Event.COMPLETE, loadend);
 			_loader.contentLoaderInfo.addEventListener(ProgressEvent.PROGRESS, gameprogress);
@@ -88,6 +87,18 @@ package
 			_loader.load( url, loaderContext);
 		}
 		
+		public  function NPointInterpolateDistance( N:int , start:Number, end:Number ):Number
+		{
+			//正常版
+			//var N1:Number =  NPointInterpolate(0/N, start, end);
+			//var N2:Number =  NPointInterpolate(1/N, start, end);
+			//return N2 - N1;
+			
+			//簡化版
+			var N1:Number =  start + (1 / N) * (end - start)			
+			return N1;
+		}
+		
 		private function gameprogress(e:ProgressEvent):void 
 		{
 			// TODO update loader
@@ -95,8 +106,13 @@ package
 			var loaded:Number = Math.round(e.bytesLoaded / 1024);
 			var percent:Number = Math.round(loaded / total * 100);
 			
-			//loadingPro._Progress.gotoAndStop(percent);
-			//loadingPro._Progress._Percent._TextFild.text = percent.toString()+"%";
+			loadingPro["_percent"].text = percent.toString() + "%";		
+			var y:int = loadingPro["_mask"].y;
+			//var shift_amount:Number = NPointInterpolateDistance( 101 - percent, y, 458 );									
+			//loadingPro["_mask"].y = shift_amount;		
+			loadingPro["_mask"].y =  622 -  ( 164 *  (percent / 100));
+			
+			
 		}
 		
 		private function loadend(event:Event):void
@@ -110,7 +126,7 @@ package
 			}
 				
 			addChild(_loader);
-			//removeChild(loadingPro);		
+			removeChild(loadingPro);		
 		}
 		
 	}

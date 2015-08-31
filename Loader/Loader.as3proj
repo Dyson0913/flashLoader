@@ -49,11 +49,11 @@
   <!-- SWC Include Libraries -->
   <includeLibraries>
     <element path="lib\loadingRes.swc" />
-    <element path="lib\Load.swc" />
   </includeLibraries>
   <!-- SWC Libraries -->
   <libraryPaths>
     <element path="lib\LibGen.swc" />
+    <element path="lib\Load.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
