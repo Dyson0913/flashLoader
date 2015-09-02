@@ -71,7 +71,7 @@ package
 		{
 			
 			//var result:Object  = { "game":"Lobby.swf"}; //JSON.decode(_para);
-			var result:Object  = JSON.decode(_para);
+			//var result:Object  = JSON.decode(_para);
 			//var UserToken:String= result.data.UserName;
 			//loadingPro._log.text = result.game + "?para=" + result;
 			loadingPro = new my_loader();		
@@ -79,7 +79,7 @@ package
 			
 			_loader.contentLoaderInfo.addEventListener(Event.COMPLETE, loadend);
 			_loader.contentLoaderInfo.addEventListener(ProgressEvent.PROGRESS, gameprogress);
-			var url:URLRequest = new URLRequest(result.game + "?para=" + result);
+			var url:URLRequest = new URLRequest("Lobby.swf" + "?para=" + _para);
 			
 			//var loaderContext:LoaderContext = new LoaderContext(false, ApplicationDomain.currentDomain);
 			var loaderContext:LoaderContext = new LoaderContext(false, new ApplicationDomain());
@@ -121,7 +121,10 @@ package
 			
 			if ( (_loader.content as MovieClip )["pass"] != null)
 			{
-				var result:Object  = JSON.decode(_para);
+				//var result:Object  = JSON.decode(_para);
+				var msg:Object = { "accessToken":_para };
+				var jsonString:String = JSON.encode(msg);
+				var result:Object  = JSON.decode(jsonString);
 				(_loader.content as MovieClip)["pass"](result);				
 			}
 				
