@@ -79,7 +79,7 @@ package
 			}
 			else
 			{
-				_domain = "http://sqoo.t28.net/swf/";
+				_domain = "http://sqoo.t28.net/swf/";				
 			}
 			
 			
