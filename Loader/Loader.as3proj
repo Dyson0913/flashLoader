@@ -54,6 +54,7 @@
   <libraryPaths>
     <element path="lib\LibGen.swc" />
     <element path="lib\Load.swc" />
+    <element path="lib\develop.common.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
