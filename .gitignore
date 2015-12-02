@@ -11,3 +11,4 @@ bin-release/
 # information for Eclipse / Flash Builder.
 Loader/obj/*
 Loader/bin/*
+*.swf
