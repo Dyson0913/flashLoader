@@ -76,7 +76,8 @@ package
 			
 			if ( CONFIG::debug ) 
 			{
-				_domain = "../static/";
+				//_domain = "../static/";
+				_domain = "http://106.186.116.216:8000/static/";
 				//var result:Object  = { "game":"Lobby.swf" }; //JSON.decode(_para);
 				var result:Object  = JSON.decode(_para);
 				_para = result.accessToken;
@@ -87,7 +88,7 @@ package
 				var result:Object  = JSON.decode(_para);
 				_para = result.accessToken;
 			}
-				Logger.log("loader _para" + _para, 0, 0, false);
+				Logger.log("loader token" + _para, 0, 0, false);
 				Logger.log("loader _domain" + _domain, 0, 0, false);
 			
 			//var UserToken:String= result.data.UserName;
@@ -97,9 +98,11 @@ package
 			
 			_loader.contentLoaderInfo.addEventListener(Event.COMPLETE, loadend);
 			_loader.contentLoaderInfo.addEventListener(ProgressEvent.PROGRESS, gameprogress);
-			var url:URLRequest = new URLRequest(_domain+"Lobby.swf" + "?para=" + _para);
+			//var url:URLRequest = new URLRequest(_domain+"Lobby.swf" + "?para=" + _para);
+			var url:URLRequest = new URLRequest(_domain + "Lobby.swf");
 			//var url:URLRequest = new URLRequest("Lobby.swf" + "?para=" + _para);
-			Logger.log("loader final = " + _domain+"Lobby.swf" + "?para=" + _para, 0, 0, false);
+			//Logger.log("loader address= " + _domain+"Lobby.swf" + "?para=" + _para, 0, 0, false);
+			Logger.log("loader address= " + _domain+"Lobby.swf", 0, 0, false);
 			//var loaderContext:LoaderContext = new LoaderContext(false, ApplicationDomain.currentDomain);
 			var loaderContext:LoaderContext = new LoaderContext(false, new ApplicationDomain());
 				
@@ -125,12 +128,12 @@ package
 			if ( (_loader.content as MovieClip )["pass"] != null)
 			{
 				if ( CONFIG::debug ) 
-				{
-					Logger.log("loader jsonString" + jsonString, 0, 0, false);
+				{					
 					//var result:Object  = JSON.decode(_para);
 					var msg:Object = { "accessToken":_para };
 					var jsonString:String = JSON.encode(msg);
 					var result:Object  = JSON.decode(jsonString);
+					Logger.log("debg", 0, 0, false);
 					(_loader.content as MovieClip)["pass"](result);			
 				}
 				else
@@ -138,7 +141,7 @@ package
 					var msg:Object = { "accessToken":_para };
 					var jsonString:String = JSON.encode(msg);
 					var result:Object  = JSON.decode(jsonString);
-					Logger.log("jsonString final = " + _domain+"Lobby.swf" + "?para=" + jsonString, 0, 0, false);
+					Logger.log("res", 0, 0, false);
 					(_loader.content as MovieClip)["pass"](result);			
 				}
 			}
