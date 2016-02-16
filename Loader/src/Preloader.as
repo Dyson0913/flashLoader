@@ -75,10 +75,8 @@ package
 			Logger.addProvider(new ArthropodLogProvider(), "Arthropod");
 			
 			if ( CONFIG::debug ) 
-			{
-				//_domain = "../static/";
-				_domain = "http://106.186.116.216:8000/static/";
-				//var result:Object  = { "game":"Lobby.swf" }; //JSON.decode(_para);
+			{				
+				_domain = "http://106.186.116.216:8000/static/";			
 				var result:Object  = JSON.decode(_para);
 				_para = result.accessToken;
 			}
@@ -99,11 +97,8 @@ package
 			_loader.contentLoaderInfo.addEventListener(Event.COMPLETE, loadend);
 			_loader.contentLoaderInfo.addEventListener(ProgressEvent.PROGRESS, gameprogress);
 			//var url:URLRequest = new URLRequest(_domain+"Lobby.swf" + "?para=" + _para);
-			var url:URLRequest = new URLRequest(_domain + "Lobby.swf");
-			//var url:URLRequest = new URLRequest("Lobby.swf" + "?para=" + _para);
-			//Logger.log("loader address= " + _domain+"Lobby.swf" + "?para=" + _para, 0, 0, false);
-			Logger.log("loader address= " + _domain+"Lobby.swf", 0, 0, false);
-			//var loaderContext:LoaderContext = new LoaderContext(false, ApplicationDomain.currentDomain);
+			var url:URLRequest = new URLRequest(_domain + "Lobby_d.swf");			
+			Logger.log("loader address= " + _domain+"Lobby_d.swf", 0, 0, false);			
 			var loaderContext:LoaderContext = new LoaderContext(false, new ApplicationDomain());
 				
 			_loader.load( url, loaderContext);
