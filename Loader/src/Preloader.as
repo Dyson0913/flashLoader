@@ -8,14 +8,18 @@ package
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.events.ProgressEvent;
+	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.system.ApplicationDomain;
 	import flash.system.LoaderContext;
 	import flash.utils.getDefinitionByName;
 	import com.adobe.serialization.json.JSON;
 	import flash.display.MovieClip;	
+		
+	import flash.net.URLLoaderDataFormat;
+	import flash.utils.ByteArray;
 	
-		import com.istrong.log.*;
+	import com.istrong.log.*;
 	/**
 	 * ...
 	 * @author hhg4092
@@ -27,8 +31,12 @@ package
 		public var _para:String;
 		
 		public var _domain:String;
+		public var _loading_path:String;
+		public var _containner_name:String;
+		public var config:String;
 		
 		public var _loader:Loader = new Loader();
+		public var _Gameconfig:URLLoader;
 		
 		public function Preloader() 
 		{
@@ -74,35 +82,66 @@ package
 			Logger.displayLevel = LogLevel.DEBUG;
 			Logger.addProvider(new ArthropodLogProvider(), "Arthropod");
 			
+			
+			
 			if ( CONFIG::debug ) 
 			{				
-				_domain = "http://106.186.116.216:8000/static/";			
+				_containner_name = "Lobby_d.swf"
+				_loading_path = "http://106.186.116.216:8000/static/";			
 				var result:Object  = JSON.decode(_para);
 				_para = result.accessToken;
+				
+				config = "http://" + _loading_path +"gameconfig.json";
+				 
 			}
 			else
 			{
-				_domain = "http://www.mm9900.net/swf/";	
+				_containner_name = "Lobby.swf"
+				_loading_path = "http://www.mm9900.net/swf/";	
 				var result:Object  = JSON.decode(_para);
 				_para = result.accessToken;
+				config = "http://" + _loading_path +"gameconfig.json";				
 			}
-				Logger.log("loader token" + _para, 0, 0, false);
-				Logger.log("loader _domain" + _domain, 0, 0, false);
+			Logger.log("loader token" + _para, 0, 0, false);
+			Logger.log("loader _loading_path" + _loading_path, 0, 0, false);
+			Logger.log("loader config" + config, 0, 0, false);
 			
-			//var UserToken:String= result.data.UserName;
-			//loadingPro._log.text = result.game + "?para=" + result;
+			load_config(config);
+		}	
+		
+		private function load_config(config:String):void
+		{
+			_Gameconfig = new URLLoader();
+			_Gameconfig.addEventListener(Event.COMPLETE, configload); //載入聊天禁言清單 完成後執行 儲存清單內容
+			_Gameconfig.dataFormat =  URLLoaderDataFormat.BINARY; 
+			_Gameconfig.load(new URLRequest(config)); 
+		}
+		
+		public function configload(e:Event):void
+		{
+			var ba:ByteArray = ByteArray(URLLoader(e.target).data); //把載入文字 丟入Byte陣列裡面
+		    var utf8Str:String = ba.readMultiByte(ba.length, 'utf8'); //把Byte陣列 轉 UTF8 格式		    
+		    var result:Object  = JSON.decode(utf8Str);
+		  
+			if ( CONFIG::debug ) _domain = result.development.DomainName[0].lobby_ws;
+			else _domain =  result.online.DomainName[0].lobby_ws
+			Logger.log("loader domain" + _domain, 0, 0, false);
+		  
+		}
+		
+		private function Load_cotainer():void
+		{
 			loadingPro = new my_loader();		
 			addChild(loadingPro);
 			
 			_loader.contentLoaderInfo.addEventListener(Event.COMPLETE, loadend);
-			_loader.contentLoaderInfo.addEventListener(ProgressEvent.PROGRESS, gameprogress);
-			//var url:URLRequest = new URLRequest(_domain+"Lobby.swf" + "?para=" + _para);
-			var url:URLRequest = new URLRequest(_domain + "Lobby_d.swf");			
+			_loader.contentLoaderInfo.addEventListener(ProgressEvent.PROGRESS, gameprogress);			
+			var url:URLRequest = new URLRequest(_loading_path + "Lobby_d.swf");			
 			Logger.log("loader address= " + _domain+"Lobby_d.swf", 0, 0, false);			
 			var loaderContext:LoaderContext = new LoaderContext(false, new ApplicationDomain());
 				
 			_loader.load( url, loaderContext);
-		}	
+		}
 		
 		private function gameprogress(e:ProgressEvent):void 
 		{
@@ -122,28 +161,17 @@ package
 			
 			if ( (_loader.content as MovieClip )["pass"] != null)
 			{
-				if ( CONFIG::debug ) 
-				{					
-					//var result:Object  = JSON.decode(_para);
-					var msg:Object = { "accessToken":_para };
-					var jsonString:String = JSON.encode(msg);
-					var result:Object  = JSON.decode(jsonString);
-					Logger.log("debg", 0, 0, false);
-					(_loader.content as MovieClip)["pass"](result);			
-				}
-				else
-				{
-					var msg:Object = { "accessToken":_para };
-					var jsonString:String = JSON.encode(msg);
-					var result:Object  = JSON.decode(jsonString);
-					Logger.log("res", 0, 0, false);
-					(_loader.content as MovieClip)["pass"](result);			
-				}
+				var msg:Object = { "accessToken":_para };
+				var jsonString:String = JSON.encode(msg);
+				var result:Object  = JSON.decode(jsonString);	
+				(_loader.content as MovieClip)["pass"](result);			
 			}
 				
 			addChild(_loader);
 			removeChild(loadingPro);		
 		}
+		
+		
 		
 	}
 	
