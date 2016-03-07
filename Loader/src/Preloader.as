@@ -82,29 +82,27 @@ package
 			Logger.displayLevel = LogLevel.DEBUG;
 			Logger.addProvider(new ArthropodLogProvider(), "Arthropod");
 			
-			
+			//FOR TEST
+			_para = "{ \"accessToken\":\"c9f0f895fb98ab9159f51fd0297e236d\"}";
 			
 			if ( CONFIG::debug ) 
 			{				
 				_containner_name = "Lobby_d.swf"
-				_loading_path = "http://106.186.116.216:8000/static/";			
-				var result:Object  = JSON.decode(_para);
-				_para = result.accessToken;
-				
-				config = "http://" + _loading_path +"gameconfig.json";
-				 
+				_loading_path = "http://106.186.116.216:8000/static/";
 			}
 			else
 			{
 				_containner_name = "Lobby.swf"
-				_loading_path = "http://www.mm9900.net/swf/";	
-				var result:Object  = JSON.decode(_para);
-				_para = result.accessToken;
-				config = "http://" + _loading_path +"gameconfig.json";				
+				_loading_path = "http://www.mm9900.net/swf/";
 			}
-			Logger.log("loader token" + _para, 0, 0, false);
-			Logger.log("loader _loading_path" + _loading_path, 0, 0, false);
-			Logger.log("loader config" + config, 0, 0, false);
+			
+			var result:Object  = JSON.decode(_para);			
+			_para = result.accessToken;
+			config = _loading_path +"gameconfig.json";
+			
+			Logger.log("loader token " + _para, 0, 0, false);
+			Logger.log("loader _loading_path " + _loading_path, 0, 0, false);
+			Logger.log("loader config " + config, 0, 0, false);
 			
 			load_config(config);
 		}	
@@ -125,8 +123,9 @@ package
 		  
 			if ( CONFIG::debug ) _domain = result.development.DomainName[0].lobby_ws;
 			else _domain =  result.online.DomainName[0].lobby_ws
-			Logger.log("loader domain" + _domain, 0, 0, false);
+			Logger.log("loader domain " + _domain, 0, 0, false);
 		  
+			Load_cotainer();
 		}
 		
 		private function Load_cotainer():void
@@ -136,8 +135,8 @@ package
 			
 			_loader.contentLoaderInfo.addEventListener(Event.COMPLETE, loadend);
 			_loader.contentLoaderInfo.addEventListener(ProgressEvent.PROGRESS, gameprogress);			
-			var url:URLRequest = new URLRequest(_loading_path + "Lobby_d.swf");			
-			Logger.log("loader address= " + _domain+"Lobby_d.swf", 0, 0, false);			
+			var url:URLRequest = new URLRequest(_loading_path + _containner_name);			
+			Logger.log("loader address= " + _loading_path + _containner_name, 0, 0, false);
 			var loaderContext:LoaderContext = new LoaderContext(false, new ApplicationDomain());
 				
 			_loader.load( url, loaderContext);
@@ -161,7 +160,7 @@ package
 			
 			if ( (_loader.content as MovieClip )["pass"] != null)
 			{
-				var msg:Object = { "accessToken":_para };
+				var msg:Object = { "accessToken":_para,"loading_path":_loading_path,"domain":_domain };
 				var jsonString:String = JSON.encode(msg);
 				var result:Object  = JSON.decode(jsonString);	
 				(_loader.content as MovieClip)["pass"](result);			
