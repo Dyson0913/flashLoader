@@ -83,7 +83,7 @@ package
 			Logger.addProvider(new ArthropodLogProvider(), "Arthropod");
 			
 			//FOR TEST
-			_para = "{ \"accessToken\":\"c9f0f895fb98ab9159f51fd0297e236d\"}";
+			//_para = "{ \"accessToken\":\"c9f0f895fb98ab9159f51fd0297e236d\"}";
 			
 			if ( CONFIG::debug ) 
 			{				
