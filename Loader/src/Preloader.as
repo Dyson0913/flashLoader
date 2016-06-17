@@ -87,8 +87,9 @@ package
 			
 			if ( CONFIG::debug ) 
 			{				
-				_containner_name = "Lobby_d.swf"
-				_loading_path = "http://106.186.116.216:8000/static/";
+				_containner_name = "Lobby.swf"
+				//_loading_path = "http://106.186.116.216:8000/static/";
+				_loading_path = "http://52.197.7.184/swf/";
 			}
 			else
 			{
@@ -109,21 +110,31 @@ package
 		
 		private function load_config(config:String):void
 		{
+			Logger.log("1111"  , 0, 0, false);
 			_Gameconfig = new URLLoader();
-			_Gameconfig.addEventListener(Event.COMPLETE, configload); //載入聊天禁言清單 完成後執行 儲存清單內容
+			_Gameconfig.addEventListener(Event.COMPLETE, configload); //載入聊天禁言清單 完成後執行 儲存清單內容			
 			_Gameconfig.dataFormat =  URLLoaderDataFormat.BINARY; 
 			_Gameconfig.load(new URLRequest(config)); 
+			Logger.log("2222"  , 0, 0, false);
+			Logger.log("loader config " + config, 0, 0, false);
 		}
+		
+			public function configpro(e:Event):void
+			{
+				Logger.log("configpro ", 0, 0, false);
+			}
 		
 		public function configload(e:Event):void
 		{
+			Logger.log("configload ok 1", 0, 0, false);
 			var ba:ByteArray = ByteArray(URLLoader(e.target).data); //把載入文字 丟入Byte陣列裡面
 		    var utf8Str:String = ba.readMultiByte(ba.length, 'utf8'); //把Byte陣列 轉 UTF8 格式		    
 		    var result:Object  = JSON.decode(utf8Str);
 		  
+			Logger.log("configload ok 2", 0, 0, false);
 			if ( CONFIG::debug ) _domain = result.development.DomainName[0].lobby_ws;
 			else _domain =  result.online.DomainName[0].lobby_ws
-			Logger.log("loader domain " + _domain, 0, 0, false);
+			Logger.log("configload ok 3", 0, 0, false);
 		  
 			Load_cotainer();
 		}
