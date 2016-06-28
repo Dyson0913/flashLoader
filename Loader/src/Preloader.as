@@ -31,6 +31,7 @@ package
 		public var _para:String;
 		
 		public var _domain:String;
+		public var _game_ver:Object;
 		public var _loading_path:String;
 		public var _containner_name:String;
 		public var config:String;
@@ -89,52 +90,56 @@ package
 			{				
 				_containner_name = "Lobby.swf"
 				//_loading_path = "http://106.186.116.216:8000/static/";
-				_loading_path = "http://52.197.7.184/swf/";
+				_loading_path = "http://52.197.7.184/swf/";				
+				//_loading_path = "";
 			}
 			else
 			{
 				_containner_name = "Lobby.swf"
-				_loading_path = "http://www.mm9900.net/swf/";
+				_loading_path = "http://www.mm9900.net/swf/";				
 			}
 			
-			var result:Object  = JSON.decode(_para);			
+			var result:Object  = JSON.decode(_para);
 			_para = result.accessToken;
 			config = _loading_path +"gameconfig.json";
 			
-			Logger.log("loader token " + _para, 0, 0, false);
-			Logger.log("loader _loading_path " + _loading_path, 0, 0, false);
-			Logger.log("loader config " + config, 0, 0, false);
+			//loading with no cache
+			var ra:int = Math.random() * 1000;
+			config += "?Ran=" + ra.toString();
 			
+			Logger.log("loader token " + _para, 0, 0, false);
+			Logger.log("loader _loading_path " + _loading_path, 0, 0, false);			
 			load_config(config);
 		}	
 		
 		private function load_config(config:String):void
-		{
-			Logger.log("1111"  , 0, 0, false);
+		{			
 			_Gameconfig = new URLLoader();
 			_Gameconfig.addEventListener(Event.COMPLETE, configload); //載入聊天禁言清單 完成後執行 儲存清單內容			
 			_Gameconfig.dataFormat =  URLLoaderDataFormat.BINARY; 
-			_Gameconfig.load(new URLRequest(config)); 
-			Logger.log("2222"  , 0, 0, false);
+			_Gameconfig.load(new URLRequest(config));			
 			Logger.log("loader config " + config, 0, 0, false);
 		}
 		
-			public function configpro(e:Event):void
-			{
-				Logger.log("configpro ", 0, 0, false);
-			}
-		
 		public function configload(e:Event):void
 		{
-			Logger.log("configload ok 1", 0, 0, false);
+			
 			var ba:ByteArray = ByteArray(URLLoader(e.target).data); //把載入文字 丟入Byte陣列裡面
 		    var utf8Str:String = ba.readMultiByte(ba.length, 'utf8'); //把Byte陣列 轉 UTF8 格式		    
 		    var result:Object  = JSON.decode(utf8Str);
-		  
-			Logger.log("configload ok 2", 0, 0, false);
-			if ( CONFIG::debug ) _domain = result.development.DomainName[0].lobby_ws;
-			else _domain =  result.online.DomainName[0].lobby_ws
-			Logger.log("configload ok 3", 0, 0, false);
+			
+			if ( CONFIG::debug )
+			{
+				_domain = result.development.DomainName[0].lobby_ws;
+				_game_ver = result.development.game_ver;
+				
+			}
+			else 
+			{
+				_domain =  result.online.DomainName[0].lobby_ws;
+				_game_ver = result.online.game_ver;
+			}
+			Logger.log("configload _game_ver ="+_game_ver, 0, 0, false);
 		  
 			Load_cotainer();
 		}
@@ -171,7 +176,7 @@ package
 			
 			if ( (_loader.content as MovieClip )["pass"] != null)
 			{
-				var msg:Object = { "accessToken":_para,"loading_path":_loading_path,"domain":_domain };
+				var msg:Object = { "accessToken":_para,"loading_path":_loading_path,"domain":_domain,"game_ver":_game_ver};
 				var jsonString:String = JSON.encode(msg);
 				var result:Object  = JSON.decode(jsonString);	
 				(_loader.content as MovieClip)["pass"](result);			
